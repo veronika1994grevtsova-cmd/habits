@@ -47,7 +47,7 @@
   <section class="card ">
     <h1>Сегодня</h1>
 
-   <div class="habit">
+   <div class="habit" data-key="water">
     <div class="row">
       <div class="name">Вода (2 литра)</div>
       <input type="checkbox" />
@@ -55,7 +55,7 @@
     <div class="status">Не сделано</div>
     </div>
 
- <div class="habit">
+ <div class="habit" data-key="no-alcohol">
     <div class="row">
       <div class="name">Без алкоголя </div>
       <input type="checkbox" />
@@ -63,7 +63,39 @@
     <div class="status">Не сделано</div>
     </div>
 
-<div class="habit">
+ <div class="habit" data-key="reading-30">
+    <div class="row">
+      <div class="name">Чтение 30 минут </div>
+      <input type="checkbox" />
+    </div>
+    <div class="status">Не сделано</div>
+    </div>
+
+ <div class="habit" data-key="cleaning-1h">
+    <div class="row">
+      <div class="name">Уборка 1 час </div>
+      <input type="checkbox" />
+    </div>
+    <div class="status">Не сделано</div>
+    </div>
+
+ <div class="habit" data-key="nosmoking">
+    <div class="row">
+      <div class="name">Без курения </div>
+      <input type="checkbox" />
+    </div>
+    <div class="status">Не сделано</div>
+    </div>
+
+ <div class="habit" data-key="study-1h">
+    <div class="row">
+      <div class="name">Учеба 1 час </div>
+      <input type="checkbox" />
+    </div>
+    <div class="status">Не сделано</div>
+    </div>
+
+<div class="habit" data-key="treadmill-30">
     <div class="row">
       <div class="name"> Ходьба на беговой дорожке 30 минут </div>
       <input type="checkbox" />
@@ -72,6 +104,60 @@
     </div>
 
   </section>
+
+  <script>
+  // Ключ дня: YYYY-MM-DD (локальная дата)
+  function todayKey() {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  }
+
+  const STORAGE_KEY = "habits_" + todayKey();
+
+  function loadState() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+    } catch {
+      return {};
+    }
+  }
+
+  function saveState(state) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function setUI(card, checked) {
+    const checkbox = card.querySelector('input[type="checkbox"]');
+    const status = card.querySelector(".status");
+
+    checkbox.checked = !!checked;
+    status.textContent = checked ? "Сделано" : "Не сделано";
+  }
+
+  const cards = document.querySelectorAll(".habit");
+  const state = loadState();
+
+  // 1) Восстановить сохранённые значения
+  cards.forEach(card => {
+    const key = card.dataset.key;
+    setUI(card, state[key]);
+  });
+
+  // 2) Сохранять изменения
+  cards.forEach(card => {
+    const key = card.dataset.key;
+    const checkbox = card.querySelector('input[type="checkbox"]');
+
+    checkbox.addEventListener("change", () => {
+      state[key] = checkbox.checked;
+      saveState(state);
+      setUI(card, checkbox.checked);
+    });
+  });
+</script>
 
 </body>
 </html>
