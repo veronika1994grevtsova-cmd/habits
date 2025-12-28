@@ -1,25 +1,78 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Мое первое приложение </title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=" />
+  <title> Трекер привычки </title>
+  
+ <style>
+  body{ 
+   margin:0;
+      font-family: system-ui, -apple-system, Arial;
+      background:#f6f7fb;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:16px;
+    }
+    .card{
+      width:min(520px, 100%);
+      background:#fff;
+      border-radius:16px;
+      padding:18px;
+      box-shadow:0 10px 30px rgba(0,0,0,.08);
+    }
+    h1{margin:0 0 12px; font-size:26px}
+    .row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px;
+      border:1px solid #e5e7eb;
+      border-radius:14px;
+    }
+    .name{font-size:18px; font-weight:700}
+    .status{margin-top:10px; color:#6b7280}
+    input[type="checkbox"]{
+      width:26px;
+      height:26px;
+    }
+  </style>
 </head>
 
 <body>
+  <main class="card">
+    <h1>Сегодня</h1>
 
-  <h1 id="title"> Привет </h1>
-  <p> Это мой первый код </p>
-  <button id="myButton"> Нажми меня </button>
+    <div class="row">
+      <div class="name">Вода (2 литра)</div>
+      <input id="habit" type="checkbox" />
+    </div>
 
-  <script> 
-   const button = document.getElementById ("myButton");
-   const title = document.getElementById("title"); 
+    <div id="status" class="status">Не сделано</div>
+  </main>
 
-   button.addEventListener("click", () => {
-     title.textContent = "Ты кротокрыс !"; 
-   });
-   </script> 
+  <script>
+  // 1) Находим элементы на странице
+    const habit = document.getElementById("habit");
+    const status = document.getElementById("status");
 
+    // 2) Ключ — “имя ячейки памяти” в браузере
+    const KEY = "habit_water_done";
+
+    // 3) При загрузке страницы читаем сохранённое значение
+    const saved = localStorage.getItem(KEY);
+    if (saved === "true") {
+      habit.checked = true;
+      status.textContent = "Сделано ✅";
+    }
+
+    // 4) Когда ты меняешь чекбокс — сохраняем и обновляем текст
+    habit.addEventListener("change", () => {
+      localStorage.setItem(KEY, habit.checked);
+      status.textContent = habit.checked ? "Сделано ✅" : "Не сделано";
+    });
+  </script>
 </body>
-
 </html>
