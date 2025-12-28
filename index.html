@@ -41,38 +41,37 @@
   </style>
 </head>
 
+<link rel="stylesheet" href="style.css">
+
 <body>
-  <main class="card">
+  <section class="card ">
     <h1>Сегодня</h1>
 
+   <div class="habit">
     <div class="row">
       <div class="name">Вода (2 литра)</div>
-      <input id="habit" type="checkbox" />
+      <input type="checkbox" />
+    </div>
+    <div class="status">Не сделано</div>
     </div>
 
-    <div id="status" class="status">Не сделано</div>
-  </main>
+ <div class="habit">
+    <div class="row">
+      <div class="name">Без алкоголя </div>
+      <input type="checkbox" />
+    </div>
+    <div class="status">Не сделано</div>
+    </div>
 
-  <script>
-  // 1) Находим элементы на странице
-    const habit = document.getElementById("habit");
-    const status = document.getElementById("status");
+<div class="habit">
+    <div class="row">
+      <div class="name"> Ходьба на беговой дорожке 30 минут </div>
+      <input type="checkbox" />
+    </div>
+    <div class="status">Не сделано</div>
+    </div>
 
-    // 2) Ключ — “имя ячейки памяти” в браузере
-    const KEY = "habit_water_done";
+  </section>
 
-    // 3) При загрузке страницы читаем сохранённое значение
-    const saved = localStorage.getItem(KEY);
-    if (saved === "true") {
-      habit.checked = true;
-      status.textContent = "Сделано ✅";
-    }
-
-    // 4) Когда ты меняешь чекбокс — сохраняем и обновляем текст
-    habit.addEventListener("change", () => {
-      localStorage.setItem(KEY, habit.checked);
-      status.textContent = habit.checked ? "Сделано ✅" : "Не сделано";
-    });
-  </script>
 </body>
 </html>
