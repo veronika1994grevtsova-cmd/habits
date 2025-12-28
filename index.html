@@ -47,6 +47,10 @@
   <section class="card ">
     <h1>Сегодня</h1>
 
+    <div class="progress">
+  Выполнено сегодня: <span id="donePercent">0%</span>
+</div>
+
    <div class="habit" data-key="water">
     <div class="row">
       <div class="name">Вода (2 литра)</div>
@@ -159,5 +163,27 @@
   });
 </script>
 
+<script>
+  function updateProgress() {
+    const habits = document.querySelectorAll(".habit");
+    const total = habits.length;
+    const checked = document.querySelectorAll(".habit input[type='checkbox']:checked").length;
+
+    const percent = total === 0 ? 0 : Math.round((checked / total) * 100);
+    document.getElementById("donePercent").textContent = percent + "%";
+  }
+
+  // навесим обработчики на все чекбоксы
+  document.querySelectorAll(".habit input[type='checkbox']").forEach(cb => {
+    cb.addEventListener("change", updateProgress);
+  });
+
+  // чтобы сразу посчиталось при открытии
+  updateProgress();
+</script>
+
+
+
 </body>
 </html>
+
